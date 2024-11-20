@@ -1,0 +1,15 @@
+C:\Users\Karol\Documents\GitHub\commitingSudoku\bin\Debug\net8.0\Sudoku.exe
+C:\Users\Karol\Documents\GitHub\commitingSudoku\bin\Debug\net8.0\Sudoku.deps.json
+C:\Users\Karol\Documents\GitHub\commitingSudoku\bin\Debug\net8.0\Sudoku.runtimeconfig.json
+C:\Users\Karol\Documents\GitHub\commitingSudoku\bin\Debug\net8.0\Sudoku.dll
+C:\Users\Karol\Documents\GitHub\commitingSudoku\bin\Debug\net8.0\Sudoku.pdb
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.AssemblyInfoInputs.cache
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.AssemblyInfo.cs
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.csproj.CoreCompileInputs.cache
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.sourcelink.json
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.dll
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\refint\Sudoku.dll
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.pdb
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.genruntimeconfig.cache
+C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\ref\Sudoku.dll
