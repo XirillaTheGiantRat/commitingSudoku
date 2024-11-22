@@ -12,9 +12,19 @@ namespace Sudoku
         {
             Console.WriteLine("Enter sudoku:");
             inputString = Console.ReadLine();
-            intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList(); 
+
+            //save every number as a separate int in the intList
+            intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList();
+
+            MakeSudokuFromInput(intList);
         }
 
+
+        public static Sudoku MakeSudokuFromInput(List<int> inputList)
+        {
+            Sudoku inputSudoku = new Sudoku(inputList);
+            return inputSudoku;
+        }
     }
 
 }

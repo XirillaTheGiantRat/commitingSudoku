@@ -13,3 +13,18 @@ C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\refint\Sudoku.d
 C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.pdb
 C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\Sudoku.genruntimeconfig.cache
 C:\Users\Karol\Documents\GitHub\commitingSudoku\obj\Debug\net8.0\ref\Sudoku.dll
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\bin\Debug\net8.0\Sudoku.exe
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\bin\Debug\net8.0\Sudoku.deps.json
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\bin\Debug\net8.0\Sudoku.runtimeconfig.json
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\bin\Debug\net8.0\Sudoku.dll
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\bin\Debug\net8.0\Sudoku.pdb
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.AssemblyInfoInputs.cache
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.AssemblyInfo.cs
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.csproj.CoreCompileInputs.cache
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.sourcelink.json
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.dll
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\refint\Sudoku.dll
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.pdb
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\Sudoku.genruntimeconfig.cache
+C:\Users\Tessa Bormans\Source\Repos\commitingSudoku\obj\Debug\net8.0\ref\Sudoku.dll
