@@ -7,6 +7,8 @@ namespace Sudoku
     {
         public static string inputString;
         public static List<int> intList;
+        public static Sudoku inputSudoku;
+        public static Evaluator evaluator = new Evaluator(); // dit staat er nu in om te testen AKA temp
 
         public static void Main(string[] args)
         {
@@ -16,14 +18,21 @@ namespace Sudoku
             //save every number as a separate int in the intList
             intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList();
 
-            MakeSudokuFromInput(intList);
+            inputSudoku = MakeSudokuFromInput(intList);
+            
+            TestHorizontalMethod(); // temp
         }
 
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)
         {
-            Sudoku inputSudoku = new Sudoku(inputList);
-            return inputSudoku;
+            Sudoku sudokuInMaking = new Sudoku(inputList);
+            return sudokuInMaking;
+        }
+
+        public static int[] TestHorizontalMethod() // temp
+        {
+            return evaluator.ReadHorizontal(inputSudoku, 2);
         }
     }
 

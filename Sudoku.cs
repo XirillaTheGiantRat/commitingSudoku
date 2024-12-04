@@ -23,6 +23,8 @@ namespace Sudoku
                 this.allIndexes[row, col] = value;
             }
         }
+
+
     }
 
     public class Block
