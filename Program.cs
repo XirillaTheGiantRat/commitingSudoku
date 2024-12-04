@@ -20,7 +20,7 @@ namespace Sudoku
 
             inputSudoku = MakeSudokuFromInput(intList);
             
-            TestHorizontalMethod(); // temp
+            TestVerticalMethod(); // temp
         }
 
 
@@ -30,9 +30,9 @@ namespace Sudoku
             return sudokuInMaking;
         }
 
-        public static int[] TestHorizontalMethod() // temp
+        public static int[] TestVerticalMethod() // temp
         {
-            return evaluator.ReadHorizontal(inputSudoku, 2);
+            return evaluator.ReadVertical(inputSudoku, 2);
         }
     }
 

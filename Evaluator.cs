@@ -27,5 +27,18 @@ namespace Sudoku
             return numbersInColumn;
         }
 
+        public int[] ReadVertical(Sudoku sudoku, int r) // r is de row van de sudoku gelezen met 0-indexing
+        {
+            int[] numbersInRow = new int[9];
+            int value;
+
+            for (int i = 0; i < 9; i++)
+            {
+                value = sudoku.allIndexes[i, r];
+                numbersInRow[i] = value;
+            }
+
+            return numbersInRow;
+        }
     }
 }
