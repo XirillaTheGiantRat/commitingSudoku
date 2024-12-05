@@ -8,6 +8,7 @@ namespace Sudoku
         public static string inputString;
         public static List<int> intList;
         public static Sudoku inputSudoku;
+        public static Block blocks;
         public static Evaluator evaluator = new Evaluator(); // dit staat er nu in om te testen AKA temp
 
         public static void Main(string[] args)
@@ -19,6 +20,7 @@ namespace Sudoku
             intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList();
 
             inputSudoku = MakeSudokuFromInput(intList);
+            blocks = MakeBlocksFromSudoku(inputSudoku);
             
             TestVerticalMethod(); // temp
         }
@@ -28,6 +30,12 @@ namespace Sudoku
         {
             Sudoku sudokuInMaking = new Sudoku(inputList);
             return sudokuInMaking;
+        }
+
+        public static Block MakeBlocksFromSudoku(Sudoku sudoku)
+        {
+            Block block = new Block(sudoku);
+            return block;
         }
 
         public static int[] TestVerticalMethod() // temp
