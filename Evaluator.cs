@@ -40,5 +40,17 @@ namespace Sudoku
 
             return numbersInRow;
         }
+
+        public int Read0Values(int[] input)
+        {
+            int amountOf0Values = 0;
+
+            foreach (int i in input)
+            {
+                if(i == 0) amountOf0Values++;
+            }
+
+            return amountOf0Values;
+        }
     }
 }
