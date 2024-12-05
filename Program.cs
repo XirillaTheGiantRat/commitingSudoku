@@ -25,7 +25,6 @@ namespace Sudoku
             TestVerticalMethod(); // temp
         }
 
-
         public static Sudoku MakeSudokuFromInput(List<int> inputList)
         {
             Sudoku sudokuInMaking = new Sudoku(inputList);
