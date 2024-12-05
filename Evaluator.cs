@@ -52,5 +52,14 @@ namespace Sudoku
 
             return amountOf0Values;
         }
+
+        public bool IsThereANumber(int[] input, int n)
+        {
+            foreach (int value in input)
+            {
+                if (value == n) return true;
+            }
+            return false;
+        }
     }
 }
