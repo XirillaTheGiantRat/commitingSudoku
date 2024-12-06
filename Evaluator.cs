@@ -78,17 +78,16 @@ namespace Sudoku
 
         public int HeuristicFunctionPerRowOrColumn(int[] input) // unit test
         {
-            int heuristicValue = 0;
             (bool, List<int>) tuple = AreAllNumbersIncludedInList(input);
             // als de bool true is, is de lijst dus compleet van alle waarden 1-9
             // heuristische waarde moet dan 0 zijn
-            if (tuple.Item1) return heuristicValue; 
+            if (tuple.Item1) return 0; 
             else 
             {
                 // anders wordt de heuristische waarde verhoogd voor elk nummer die nog mist in de lijst
                 List<int> missingNumbers = tuple.Item2;
-                foreach (int number in missingNumbers) heuristicValue++;
-                return heuristicValue;
+                int newValue = missingNumbers.Count();
+                return newValue;
             }
         }
     }
