@@ -64,7 +64,7 @@ namespace Sudoku
         }
 
         public (bool, List<int>) AreAllNumbersIncludedInList(int[] input)
-        {
+        { // Kijkt of alle getallen van 1-9 in een lijst zitten en houdt bij welke getallen er missen
             List<int> missingNumbers = new List<int>();
 
             for (int n = 1; n <= 9; n++)
