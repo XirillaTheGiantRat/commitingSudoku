@@ -53,13 +53,28 @@ namespace Sudoku
             return amountOf0Values;
         }
 
+        
         public bool IsThereANumber(int[] input, int n)
-        {
+        {// kijkt of nummer n in de lijst zit. false als hij er niet in zit en true als hij er wel in zit.
             foreach (int value in input)
             {
                 if (value == n) return true;
             }
             return false;
+        }
+
+        public (bool, List<int>) AreAllNumbersIncludedInList(int[] input)
+        {
+            List<int> missingNumbers = new List<int>();
+
+            for (int n = 1; n <= 9; n++)
+            {
+                if (!IsThereANumber(input, n)) missingNumbers.Add(n);
+            }
+
+            bool allNumbersIncluded = (missingNumbers.Count() == 0);
+            return (allNumbersIncluded, missingNumbers);
+            
         }
     }
 }
