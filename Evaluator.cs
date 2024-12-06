@@ -63,7 +63,7 @@ namespace Sudoku
             return false;
         }
 
-        public (bool, List<int>) AreAllNumbersIncludedInList(int[] input)
+        public (bool, List<int>) AreAllNumbersIncludedInList(int[] input) //unit test
         { // Kijkt of alle getallen van 1-9 in een lijst zitten en houdt bij welke getallen er missen
             List<int> missingNumbers = new List<int>();
 
@@ -74,7 +74,22 @@ namespace Sudoku
 
             bool allNumbersIncluded = (missingNumbers.Count() == 0);
             return (allNumbersIncluded, missingNumbers);
-            
+        }
+
+        public int HeuristicFunctionPerRowOrColumn(int[] input) // unit test
+        {
+            int heuristicValue = 0;
+            (bool, List<int>) tuple = AreAllNumbersIncludedInList(input);
+            // als de bool true is, is de lijst dus compleet van alle waarden 1-9
+            // heuristische waarde moet dan 0 zijn
+            if (tuple.Item1) return heuristicValue; 
+            else 
+            {
+                // anders wordt de heuristische waarde verhoogd voor elk nummer die nog mist in de lijst
+                List<int> missingNumbers = tuple.Item2;
+                foreach (int number in missingNumbers) heuristicValue++;
+                return heuristicValue;
+            }
         }
     }
 }
