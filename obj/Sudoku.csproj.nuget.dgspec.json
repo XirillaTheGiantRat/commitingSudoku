@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tessa Bormans\\source\\repos\\commitingSudoku\\Sudoku.csproj": {}
+    "C:\\Users\\Tessa Bormans\\Source\\Repos\\commitingSudoku\\Sudoku.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tessa Bormans\\source\\repos\\commitingSudoku\\Sudoku.csproj": {
+    "C:\\Users\\Tessa Bormans\\Source\\Repos\\commitingSudoku\\Sudoku.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tessa Bormans\\source\\repos\\commitingSudoku\\Sudoku.csproj",
+        "projectUniqueName": "C:\\Users\\Tessa Bormans\\Source\\Repos\\commitingSudoku\\Sudoku.csproj",
         "projectName": "Sudoku",
-        "projectPath": "C:\\Users\\Tessa Bormans\\source\\repos\\commitingSudoku\\Sudoku.csproj",
+        "projectPath": "C:\\Users\\Tessa Bormans\\Source\\Repos\\commitingSudoku\\Sudoku.csproj",
         "packagesPath": "C:\\Users\\Tessa Bormans\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tessa Bormans\\source\\repos\\commitingSudoku\\obj\\",
+        "outputPath": "C:\\Users\\Tessa Bormans\\Source\\Repos\\commitingSudoku\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
