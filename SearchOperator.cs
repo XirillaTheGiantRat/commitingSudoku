@@ -14,6 +14,7 @@ namespace Sudoku
             
         }
 
+        // Perform a random swap between 2 non-fixated cells 
         public static void swapCells(Block block, int i, int j)
         {
             (int, bool)[,] b = block.blockIndexes[i, j];
