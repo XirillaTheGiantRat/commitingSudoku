@@ -25,8 +25,6 @@ namespace Sudoku
 
             InsertValues(blocks);
 
-            SearchOperator.swapCells(blocks, 0, 0);
-
             TestVerticalMethod(); // temp
         }
 
