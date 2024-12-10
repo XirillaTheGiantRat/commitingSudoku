@@ -24,7 +24,9 @@ namespace Sudoku
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
             InsertValues(blocks);
-            
+
+            SearchOperator.swapCells(blocks, 0, 0);
+
             TestVerticalMethod(); // temp
         }
 
@@ -55,6 +57,8 @@ namespace Sudoku
                 }
             }
         }
+
+        
 
         
     }

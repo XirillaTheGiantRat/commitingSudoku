@@ -8,43 +8,37 @@ namespace Sudoku
 {
     public class SearchOperator
     {
-        public Block block;
-        private Random random = new Random();
-        public SearchOperator(Block b)
+        private static Random random = new Random();
+        public SearchOperator()
         {
-            block = b;
+            
         }
 
-        public List<(int, bool)> GetNonFixatedFields()
+        public static void swapCells(Block block, int i, int j)
         {
-            List<(int, bool)> nonFixatedFields = new List<(int, bool)>();
-            foreach ((int, bool) field in block.blockIndexes) 
+            (int, bool)[,] b = block.blockIndexes[i, j];
+            bool done = false;
+
+            while (!done)
             {
-                if (!field.Item2)
+                int one = random.Next(3);
+                int two = random.Next(3);
+                int three = random.Next(3); 
+                int four = random.Next(3);
+
+                bool check1 = b[one, two].Item2 == false;
+                bool check2 = b[three, four].Item2 == false;
+
+                if (check1 && check2 && !(b[one, two].Item1 == b[three, four].Item1))
                 {
-                    nonFixatedFields.Add(field);
+                    int save = b[one, two].Item1;
+                    b[one, two].Item1 = b[three, four].Item1;
+                    b[three, four].Item1 = save;
+                    done = true;
                 }
             }
-            return nonFixatedFields;
         }
 
-        public void SwitchTwoRandomValues(List<(int, bool)> nonFixatedFields)
-        {
-            int length = nonFixatedFields.Count;
-            int indexOne = random.Next(0, length);
-            int indexTwo = random.Next(0, length);
-            if (indexOne != indexTwo)
-            {
-                (int, bool) switchOne = nonFixatedFields[indexOne];
-                (int, bool) switchTwo = nonFixatedFields[indexTwo];
-
-                // wisselen van de waardes komt hier
-            }
-            else 
-            {
-                return; // ?? klopt misschien niet
-            }
-
-        }
+        
     }
 }
