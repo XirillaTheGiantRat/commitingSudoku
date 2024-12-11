@@ -13,11 +13,11 @@ namespace Sudoku
      * - 
      */
 
-    public class SearchOperatorIneffective 
+    public class SearchOperator
     {
         private Block block;
         private static Random random = new Random();
-        public SearchOperatorIneffective(Block block)
+        public SearchOperator(Block block)
         {
             this.block = block;
         }
