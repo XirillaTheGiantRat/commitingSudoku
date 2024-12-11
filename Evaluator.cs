@@ -115,5 +115,13 @@ namespace Sudoku
             }
             return heuristicValuesPerColumn;
         }
+
+        public int HeuristicValueOfSudoku(int[] rowHeuristics, int[] columnHeuristics) 
+        {
+            int sumOfRows = rowHeuristics.Sum();
+            int sumOfColumns = columnHeuristics.Sum();
+            int totalsum = sumOfRows + sumOfColumns;
+            return totalsum;
+        }
     }
 }
