@@ -8,12 +8,13 @@ namespace Sudoku
 {
     public class Evaluator
     {
-        public Evaluator()
+        public Sudoku sudoku;
+        public Evaluator(Sudoku s)
         {
-
+            sudoku = s;
         }
 
-        public int[] ReadHorizontal(Sudoku sudoku, int c) // stel je zegt c=2, dan is dit de derde column van de sudoku, vanwege 0-indexing
+        public int[] ReadHorizontal(int c) // stel je zegt c=2, dan is dit de derde column van de sudoku, vanwege 0-indexing
         {
             int[] numbersInColumn = new int[9];
             int value;
@@ -27,7 +28,7 @@ namespace Sudoku
             return numbersInColumn;
         }
 
-        public int[] ReadVertical(Sudoku sudoku, int r) // r is de row van de sudoku gelezen met 0-indexing
+        public int[] ReadVertical(int r) // r is de row van de sudoku gelezen met 0-indexing
         {
             int[] numbersInRow = new int[9];
             int value;
@@ -63,7 +64,7 @@ namespace Sudoku
             return false;
         }
 
-        public (bool, List<int>) AreAllNumbersIncludedInList(int[] input) //unit test
+        public (bool, List<int>) AreAllNumbersIncludedInList(int[] input) 
         { // Kijkt of alle getallen van 1-9 in een lijst zitten en houdt bij welke getallen er missen
             List<int> missingNumbers = new List<int>();
 
@@ -76,7 +77,7 @@ namespace Sudoku
             return (allNumbersIncluded, missingNumbers);
         }
 
-        public int HeuristicFunctionPerRowOrColumn(int[] input) // unit test
+        public int HeuristicFunctionPerRowOrColumn(int[] input) 
         {
             (bool, List<int>) tuple = AreAllNumbersIncludedInList(input);
             // als de bool true is, is de lijst dus compleet van alle waarden 1-9
@@ -89,6 +90,18 @@ namespace Sudoku
                 int newValue = missingNumbers.Count();
                 return newValue;
             }
+        }
+
+        public int[] allHorizontalHeuristicValues()
+        {
+            int[] heuristicValuesPerRow = new int[9];
+            for (int i = 0; i < 9; i++)
+            {
+                int[] row = ReadHorizontal(i);
+                int hValue = HeuristicFunctionPerRowOrColumn(row);
+                heuristicValuesPerRow[i] = hValue;
+            }
+            return heuristicValuesPerRow;
         }
     }
 }

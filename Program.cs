@@ -9,7 +9,7 @@ namespace Sudoku
         public static List<int> intList;
         public static Sudoku inputSudoku;
         public static Block blocks;
-        public static Evaluator evaluator = new Evaluator(); // dit staat er nu in om te testen AKA temp
+        public static Evaluator evaluator = new Evaluator(); 
         Inserter inserter;
 
         public static void Main(string[] args)
@@ -25,7 +25,6 @@ namespace Sudoku
 
             InsertValues(blocks);
 
-            TestVerticalMethod(); // temp
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)
@@ -40,10 +39,6 @@ namespace Sudoku
             return block;
         }
 
-        public static int[] TestVerticalMethod() // temp
-        {
-            return evaluator.ReadVertical(inputSudoku, 2);
-        }
 
         public static void InsertValues(Block block)
         {
