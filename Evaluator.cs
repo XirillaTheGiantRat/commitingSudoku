@@ -103,5 +103,17 @@ namespace Sudoku
             }
             return heuristicValuesPerRow;
         }
+
+        public int[] allVerticalHeuristicValues()
+        {
+            int[] heuristicValuesPerColumn = new int[9];
+            for (int i = 0; i < 9; i++)
+            {
+                int[] column = ReadVertical(i);
+                int hValue = HeuristicFunctionPerRowOrColumn(column);
+                heuristicValuesPerColumn[i] = hValue;
+            }
+            return heuristicValuesPerColumn;
+        }
     }
 }
