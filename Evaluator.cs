@@ -55,7 +55,7 @@ namespace Sudoku
         }
 
         
-        public bool IsThereANumber(int[] input, int n)
+        public static bool IsThereANumber(int[] input, int n)
         {// kijkt of nummer n in de lijst zit. false als hij er niet in zit en true als hij er wel in zit.
             foreach (int value in input)
             {
@@ -64,7 +64,7 @@ namespace Sudoku
             return false;
         }
 
-        public (bool, List<int>) AreAllNumbersIncludedInList(int[] input) 
+        public static (bool, List<int>) AreAllNumbersIncludedInList(int[] input) 
         { // Kijkt of alle getallen van 1-9 in een lijst zitten en houdt bij welke getallen er missen
             List<int> missingNumbers = new List<int>();
 
@@ -77,7 +77,7 @@ namespace Sudoku
             return (allNumbersIncluded, missingNumbers);
         }
 
-        public int HeuristicFunctionPerRowOrColumn(int[] input) 
+        public static int HeuristicFunctionPerRowOrColumn(int[] input) 
         {
             (bool, List<int>) tuple = AreAllNumbersIncludedInList(input);
             // als de bool true is, is de lijst dus compleet van alle waarden 1-9

@@ -9,7 +9,7 @@ namespace Sudoku
         public static List<int> intList;
         public static Sudoku inputSudoku;
         public static Block blocks;
-        public static Evaluator evaluator = new Evaluator(); 
+        public static Evaluator evaluator;// = new Evaluator(); 
         Inserter inserter;
 
         public static void Main(string[] args)
@@ -23,8 +23,8 @@ namespace Sudoku
             inputSudoku = MakeSudokuFromInput(intList);
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
-            InsertValues(blocks);
-
+            InsertValues(blocks, inputSudoku);
+            SearchOperator.PerformAllSwaps(blocks);
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)
@@ -40,7 +40,7 @@ namespace Sudoku
         }
 
 
-        public static void InsertValues(Block block)
+        public static void InsertValues(Block block, Sudoku sudoku)
         {
             for (int g = 0; g < 3; g++)
             {
@@ -49,11 +49,34 @@ namespace Sudoku
                     Inserter.InsertValue(block, g, h);
                 }
             }
+            MapBlocksToSudoku(block, sudoku);
         }
 
-        
+        public static void MapBlocksToSudoku(Block blockObject, Sudoku sudoku)
+        {
+            for (int blockRow = 0; blockRow < 3; blockRow++)
+            {
+                for (int blockCol = 0; blockCol < 3; blockCol++)
+                {
+                    var currentBlock = blockObject.blockIndexes[blockRow, blockCol];
 
-        
+                    for (int localRow = 0; localRow < 3; localRow++)
+                    {
+                        for (int localCol = 0; localCol < 3; localCol++)
+                        {
+                            int globalRow = blockRow * 3 + localRow;
+                            int globalCol = blockCol * 3 + localCol;
+
+                            sudoku.allIndexes[globalRow, globalCol] = currentBlock[localRow, localCol].cellValue;
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
     }
 
 }
