@@ -77,47 +77,6 @@ namespace Sudoku
             //return block[row, col];
         }
 
-        /*
-         * checkHwaarde (){
-         * 
-         * int hwaarde = GetTheHWaarde(Program.inputSudoku);
-         * currentH = hwaarde;
-         * 
-         * while (currentH > 0 ){
-         *  list<(int row, int col)> allBlocks = new List<block>{(0,0), (0,1)....}; // alle 9 blocks
-         *  performswaps(allBlocks);
-         * }
-         * 
-         * }
-         * 
-         * 
-         * 
-         * 
-         * performswaps (list<blockcs> notvisited) {
-         * 
-         * 
-         * if(notvisited > 0){
-         *      iblock = pak random block uit de lijst
-         *      bool didtheswap = performAllSwaps(randomblock, notvisited)
-         *      if(didtheswap){
-         *          return;
-         *      }
-         *      else{
-         *          Remove(iblock)uit(notvisited);
-         *          performswaps(notvisited);
-         *      }
-         * }
-         * else // als recentvisited = 0 
-         * {
-         *      ILS doen
-         * }
-         * 
-         * }
-         * 
-         * 
-        */
-
-
         // Swap swap two cells within a block
         public static bool PerformAllSwaps(Block block)
         {
