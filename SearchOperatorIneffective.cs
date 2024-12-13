@@ -49,9 +49,9 @@ namespace Sudoku
             {
                 int index = random.Next(notVisited.Count());
                 (int, int) currentBlock = notVisited[index];
-                Block b = ConvertTupleToBlock(currentBlock);
+                //(int celValue, bool fixated)[,] b = ConvertTupleToBlock(currentBlock, Program.blocks);
 
-                bool didTheSwap = PerformAllSwaps(b);
+                bool didTheSwap = PerformAllSwaps(Program.blocks, currentBlock.Item1, currentBlock.Item2);
                 if (didTheSwap)
                 {
                     return;
@@ -68,21 +68,33 @@ namespace Sudoku
             }
         }
 
-        public static Block ConvertTupleToBlock((int, int) indexes) 
+        public static void RandomWalk(int n)
+        {
+            //ik ga dit zo doen
+        }
+
+        /*public static (int celValue, bool fixated)[,] ConvertTupleToBlock((int, int) indexes, Block block) 
         {
             int row = indexes.Item1;
             int col = indexes.Item2;
 
-            //(int celValue, bool fixated)[,] b = block.blockIndexes[row, col];
-            //return block[row, col];
+            (int celValue, bool fixated)[,] b = block.blockIndexes[row, col];
+            return b;
+        }*/
+
+        public static void RandomBlockSwap()
+        {
+            int blockRow = random.Next(3);
+            int blockCol = random.Next(3);
+            PerformAllSwaps(Program.blocks, blockRow, blockCol);
         }
 
         // Swap swap two cells within a block
-        public static bool PerformAllSwaps(Block block)
+        public static bool PerformAllSwaps(Block block, int blockRow, int blockCol)
         {
             // Randomly select a block
-            int blockRow = random.Next(3);
-            int blockCol = random.Next(3);
+            //int blockRow = random.Next(3);
+            //int blockCol = random.Next(3);
             var selectedBlock = block.blockIndexes[blockRow, blockCol];
             List<(int, (int, int), (int, int), (int, int))> hValueList = new List<(int, (int, int), (int, int), (int, int))>();
             //h waarde, (blockrow, blockcol), (x1, y1), (x2, y2)
