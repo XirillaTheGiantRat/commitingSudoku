@@ -9,7 +9,7 @@ namespace Sudoku
         public static List<int> intList;
         public static Sudoku inputSudoku;
         public static Block blocks;
-        public static Evaluator evaluator;// = new Evaluator(); 
+        public static Evaluator evaluator;
         Inserter inserter;
 
         public static void Main(string[] args)
@@ -24,7 +24,9 @@ namespace Sudoku
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
             InsertValues(blocks, inputSudoku);
-            SearchOperator.PerformAllSwaps(blocks);
+            
+            SearchOperator.CheckHValue();
+            Console.WriteLine("h-value is 0");
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)

@@ -18,17 +18,109 @@ namespace Sudoku
         private Block block;
         //private static Sudoku sudoku;
         private static Random random = new Random();
-        private Evaluator evaluator;
+        private static Evaluator evaluator;
+
+        private static int currentH;
         public SearchOperator(Block block)
         {
             this.block = block;
             
         }
 
-        // Swap swap two cells within a block
-        public static void PerformAllSwaps(Block block)
-        {
+        public static void CheckHValue() {
+            int firstHValue = evaluator.GetSudokuHValue();
+            currentH = firstHValue;
 
+            while (currentH > 0) 
+            { 
+                List<(int, int)> allBlocks = new List<(int, int)>() 
+                {
+                    (0,0), (0,1), (0,2),
+                    (1,0), (1,1), (1,2),
+                    (2,0), (2,1), (2,2)
+                };
+                ChooseSwap(allBlocks);
+            }
+        }
+
+        public static void ChooseSwap(List<(int, int)> notVisited) 
+        {
+            if (notVisited.Count > 0) 
+            {
+                int index = random.Next(notVisited.Count());
+                (int, int) currentBlock = notVisited[index];
+                Block b = ConvertTupleToBlock(currentBlock);
+
+                bool didTheSwap = PerformAllSwaps(b);
+                if (didTheSwap)
+                {
+                    return;
+                }
+                else 
+                {
+                    notVisited.Remove(currentBlock);
+                    ChooseSwap(notVisited);
+                }
+            }
+            else
+            {
+                //ILS implementeren
+            }
+        }
+
+        public static Block ConvertTupleToBlock((int, int) indexes) 
+        {
+            int row = indexes.Item1;
+            int col = indexes.Item2;
+
+            //(int celValue, bool fixated)[,] b = block.blockIndexes[row, col];
+            //return block[row, col];
+        }
+
+        /*
+         * checkHwaarde (){
+         * 
+         * int hwaarde = GetTheHWaarde(Program.inputSudoku);
+         * currentH = hwaarde;
+         * 
+         * while (currentH > 0 ){
+         *  list<(int row, int col)> allBlocks = new List<block>{(0,0), (0,1)....}; // alle 9 blocks
+         *  performswaps(allBlocks);
+         * }
+         * 
+         * }
+         * 
+         * 
+         * 
+         * 
+         * performswaps (list<blockcs> notvisited) {
+         * 
+         * 
+         * if(notvisited > 0){
+         *      iblock = pak random block uit de lijst
+         *      bool didtheswap = performAllSwaps(randomblock, notvisited)
+         *      if(didtheswap){
+         *          return;
+         *      }
+         *      else{
+         *          Remove(iblock)uit(notvisited);
+         *          performswaps(notvisited);
+         *      }
+         * }
+         * else // als recentvisited = 0 
+         * {
+         *      ILS doen
+         * }
+         * 
+         * }
+         * 
+         * 
+        */
+
+
+        // Swap swap two cells within a block
+        public static bool PerformAllSwaps(Block block)
+        {
             // Randomly select a block
             int blockRow = random.Next(3);
             int blockCol = random.Next(3);
@@ -70,12 +162,22 @@ namespace Sudoku
             }
             //find swap with best h value
             int bestHValue = hValueList.Min(x => x.Item1);
-            int index = hValueList.FindIndex(x => x.Item1 == bestHValue);
-            //perform that swap with the saved indexes
-            SwapCells(block.blockIndexes[hValueList[index].Item2.Item1, hValueList[index].Item2.Item2], hValueList[index].Item3.Item1, hValueList[index].Item3.Item2, hValueList[index].Item4.Item1, hValueList[index].Item4.Item2);
-            //update sudoku
-            Program.MapBlocksToSudoku(block, Program.inputSudoku);
-            int uu = 1;
+            if (bestHValue < currentH)
+            {
+                return false;
+
+            }
+            else
+            {
+                currentH = bestHValue;
+                int index = hValueList.FindIndex(x => x.Item1 == bestHValue);
+                //perform that swap with the saved indexes
+                SwapCells(block.blockIndexes[hValueList[index].Item2.Item1, hValueList[index].Item2.Item2], hValueList[index].Item3.Item1, hValueList[index].Item3.Item2, hValueList[index].Item4.Item1, hValueList[index].Item4.Item2);
+                //update sudoku
+                Program.MapBlocksToSudoku(block, Program.inputSudoku);
+                return true;
+            }
+
         }
 
         //dit is de meest cracked code ooit sorry basically maakt het een array aan van de hele sudoku maar dan met de values na de swap

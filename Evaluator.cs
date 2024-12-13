@@ -123,5 +123,13 @@ namespace Sudoku
             int totalsum = sumOfRows + sumOfColumns;
             return totalsum;
         }
+
+        public int GetSudokuHValue() 
+        {
+            int[] heuristicRowValues = allHorizontalHeuristicValues();
+            int[] heuristicColumnValues = allVerticalHeuristicValues();
+            int hValue = HeuristicValueOfSudoku(heuristicRowValues, heuristicColumnValues);
+            return hValue;
+        }
     }
 }

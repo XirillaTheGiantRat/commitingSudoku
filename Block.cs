@@ -9,7 +9,7 @@ namespace Sudoku
     public class Block
     {
         // 2D array of 2D arrays 
-        public (int cellValue, bool isFixated)[,][,] blockIndexes = new (int, bool)[3, 3][,];
+        public (int cellValue, bool isFixated)[,][,]blockIndexes = new (int, bool)[3, 3][,];
         /*
         +---+---+---+
         | 1 | 2 | 3 |
