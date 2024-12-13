@@ -49,7 +49,6 @@ namespace Sudoku
             {
                 int index = random.Next(notVisited.Count());
                 (int, int) currentBlock = notVisited[index];
-                //(int celValue, bool fixated)[,] b = ConvertTupleToBlock(currentBlock, Program.blocks);
 
                 bool didTheSwap = PerformAllSwaps(Program.blocks, currentBlock.Item1, currentBlock.Item2);
                 if (didTheSwap)
@@ -64,37 +63,40 @@ namespace Sudoku
             }
             else
             {
-                //ILS implementeren
+                RandomWalk(10, Program.blocks); // hier is de 10 de n aantal random walks/swaps
             }
         }
 
-        public static void RandomWalk(int n)
+        public static void RandomWalk(int n, Block block)
         {
-            //ik ga dit zo doen
+            for (int i = 0; i < n; i++)
+            {
+                //random cell die we gaan swappen
+                (int, int) cell1 = (random.Next(3), random.Next(3));
+                (int, int) cell2 = (random.Next(3), random.Next(3));
+                //randomblock, locatie nodig om straks sudoku te kunnen updaten
+                (int, int) randomBlockLoc = (random.Next(3), random.Next(3));
+                (int, bool)[,] randomBlock = block.blockIndexes[randomBlockLoc.Item1, randomBlockLoc.Item2];
+                //cell moet natuurlijk niet gefixed zijn
+                while (randomBlock[cell1.Item1, cell1.Item2].Item2)
+                {
+                    cell1 = (random.Next(3), random.Next(3));
+                }
+
+                while (randomBlock[cell2.Item1, cell2.Item2].Item2)
+                {
+                    cell2 = (random.Next(3), random.Next(3));
+                }
+                //swap and update sudoku
+                SwapCells(block.blockIndexes[randomBlockLoc.Item1, randomBlockLoc.Item2], cell1.Item1, cell1.Item2, cell2.Item1, cell2.Item2);
+                Program.MapBlocksToSudoku(block, Program.inputSudoku);
+            }
         }
 
-        /*public static (int celValue, bool fixated)[,] ConvertTupleToBlock((int, int) indexes, Block block) 
-        {
-            int row = indexes.Item1;
-            int col = indexes.Item2;
-
-            (int celValue, bool fixated)[,] b = block.blockIndexes[row, col];
-            return b;
-        }*/
-
-        public static void RandomBlockSwap()
-        {
-            int blockRow = random.Next(3);
-            int blockCol = random.Next(3);
-            PerformAllSwaps(Program.blocks, blockRow, blockCol);
-        }
 
         // Swap swap two cells within a block
         public static bool PerformAllSwaps(Block block, int blockRow, int blockCol)
         {
-            // Randomly select a block
-            //int blockRow = random.Next(3);
-            //int blockCol = random.Next(3);
             var selectedBlock = block.blockIndexes[blockRow, blockCol];
             List<(int, (int, int), (int, int), (int, int))> hValueList = new List<(int, (int, int), (int, int), (int, int))>();
             //h waarde, (blockrow, blockcol), (x1, y1), (x2, y2)
