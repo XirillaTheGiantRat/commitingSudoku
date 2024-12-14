@@ -10,47 +10,34 @@ namespace Sudoku
         private static Evaluator evaluator = new Evaluator(Program.inputSudoku);
 
         private static int currentH;
+        private static int N; 
 
         public static void CheckHValue() {
             int firstHValue = evaluator.GetSudokuHValue();
             currentH = firstHValue;
 
-            while (currentH > 0) 
-            { 
-                List<(int, int)> allBlocks = new List<(int, int)>() 
-                {
-                    (0,0), (0,1), (0,2),
-                    (1,0), (1,1), (1,2),
-                    (2,0), (2,1), (2,2)
-                };
-                ChooseSwap(allBlocks);
-            }
         }
 
         public static void ChooseSwap(List<(int, int)> notVisited) 
         {
-            if (notVisited.Count > 0) 
+            if (N < 10) 
             {
-                int index = random.Next(notVisited.Count()); // Choose a random block that has not been visited yet 
-                (int, int) currentBlock = notVisited[index];
 
-                bool didTheSwap = PerformAllSwaps(Program.blocks, currentBlock.Item1, currentBlock.Item2);
+                bool didTheSwap = PerformAllSwaps(Program.blocks, random.Next(3), random.Next(3));
                 if (didTheSwap)
                 {
                     return;
                 }
                 else 
                 {
-                    // After each unsuccesfull swap, remove 
-                    notVisited.Remove(currentBlock); // 
-                    ChooseSwap(notVisited); // Choose another that
+                    N++;
                 }
             }
             else
             {
-                // When there are no succesfull swaps possible, perform the random walk 
+                // After 10 unsuccesfull swaps, perform random walk
                 RandomWalk(20, Program.blocks);
-                Console.WriteLine("RandomWalk");
+                N = 0;
             }
         }
 
@@ -141,7 +128,17 @@ namespace Sudoku
             {
                 int index = hValueList.FindIndex(x => x.Item2 == bestHValue); 
                 int hDifference = hValueList[index].Item1 - bestHValue;
-                currentH = currentH - hDifference; // Update the currentH value of the whole sudoku after the swap
+
+                // Update the currentH value of the whole sudoku after the swap
+                if (hDifference > 0)
+                {
+                    currentH = currentH - hDifference; 
+                }
+                if (hDifference == 0)
+                {
+                    currentH = currentH;
+                    N++;
+                }
 
                 // Swap and update the sudoku
                 SwapCells(block.blockIndexes[hValueList[index].Item3.Item1, hValueList[index].Item3.Item2], hValueList[index].Item4.Item1, hValueList[index].Item4.Item2, hValueList[index].Item5.Item1, hValueList[index].Item5.Item2);
