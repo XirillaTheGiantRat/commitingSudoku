@@ -9,10 +9,10 @@ namespace Sudoku
 {
     public class Sudoku
     {
-        //saves all 81 numbers in the sudoku
+        // Save all 81 numbers in the sudoku
         public int[,] allIndexes = new int[9, 9];
 
-        public Sudoku(List<int> allNumbers) // allnumbers count = 81
+        public Sudoku(List<int> allNumbers) // Create the whole sudoku (9x9 grid)
         {
             for (int i = 0; i < allNumbers.Count(); i++)
             {

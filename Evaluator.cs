@@ -24,7 +24,6 @@ namespace Sudoku
             {
                 value = sudoku.allIndexes[r, i];
                 numbersInRow[i] = value;
-                Console.WriteLine(value);
             }
 
             return numbersInRow;

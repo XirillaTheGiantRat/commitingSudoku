@@ -17,18 +17,16 @@ namespace Sudoku
             Console.WriteLine("Enter sudoku:");
             inputString = Console.ReadLine();
 
-            //save every number as a separate int in the intList
+            // save every number as a separate int in the intList
             intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList();
 
             inputSudoku = MakeSudokuFromInput(intList);
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
-            
-
             InsertValues(blocks, inputSudoku);
             
             LocalSearch.CheckHValue();
-            Console.WriteLine("h-value is 0");
+            Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!");
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)

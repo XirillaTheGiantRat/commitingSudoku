@@ -6,16 +6,10 @@ namespace Sudoku
 {
     public class LocalSearch
     {
-        private Block block;
         private static Random random = new Random();
         private static Evaluator evaluator = new Evaluator(Program.inputSudoku);
 
         private static int currentH;
-        public LocalSearch(Block block)
-        {
-            this.block = block;
-            
-        }
 
         public static void CheckHValue() {
             int firstHValue = evaluator.GetSudokuHValue();
@@ -37,7 +31,7 @@ namespace Sudoku
         {
             if (notVisited.Count > 0) 
             {
-                int index = random.Next(notVisited.Count());
+                int index = random.Next(notVisited.Count()); // Choose a random block that has not been visited yet 
                 (int, int) currentBlock = notVisited[index];
 
                 bool didTheSwap = PerformAllSwaps(Program.blocks, currentBlock.Item1, currentBlock.Item2);
@@ -47,13 +41,16 @@ namespace Sudoku
                 }
                 else 
                 {
-                    notVisited.Remove(currentBlock);
-                    ChooseSwap(notVisited);
+                    // After each unsuccesfull swap, remove 
+                    notVisited.Remove(currentBlock); // 
+                    ChooseSwap(notVisited); // Choose another that
                 }
             }
             else
             {
-                RandomWalk(10, Program.blocks); // hier is de 10 de n aantal random walks/swaps
+                // When there are no succesfull swaps possible, perform the random walk 
+                RandomWalk(20, Program.blocks);
+                Console.WriteLine("RandomWalk");
             }
         }
 
@@ -61,14 +58,15 @@ namespace Sudoku
         {
             for (int i = 0; i < n; i++)
             {
+                // Locate a random block
+                (int, int) randomBlockLoc = (random.Next(3), random.Next(3));
+                (int, bool)[,] randomBlock = block.blockIndexes[randomBlockLoc.Item1, randomBlockLoc.Item2];
+
                 // Locate two random cells that have to be swapped 
                 (int, int) cell1 = (random.Next(3), random.Next(3));
                 (int, int) cell2 = (random.Next(3), random.Next(3));
-                
-                // Get the random block 
-                (int, int) randomBlockLoc = (random.Next(3), random.Next(3));
-                (int, bool)[,] randomBlock = block.blockIndexes[randomBlockLoc.Item1, randomBlockLoc.Item2];
-                //cell moet natuurlijk niet gefixed zijn
+
+                // Ensure the cells are not fixated 
                 while (randomBlock[cell1.Item1, cell1.Item2].Item2)
                 {
                     cell1 = (random.Next(3), random.Next(3));
@@ -78,54 +76,52 @@ namespace Sudoku
                 {
                     cell2 = (random.Next(3), random.Next(3));
                 }
-                //swap and update sudoku
+
+                // Swap and update the sudoku
                 SwapCells(block.blockIndexes[randomBlockLoc.Item1, randomBlockLoc.Item2], cell1.Item1, cell1.Item2, cell2.Item1, cell2.Item2);
                 Program.MapBlocksToSudoku(block, Program.inputSudoku);
             }
         }
 
-
-        // Swap swap two cells within a block
+        // Perform all possible swaps within a block
         public static bool PerformAllSwaps(Block block, int blockRow, int blockCol)
         {
             var selectedBlock = block.blockIndexes[blockRow, blockCol];
+
+            // Keep track of swaps with hValueList
             List<(int, int, (int, int), (int, int), (int, int))> hValueList = new List<(int, int, (int, int), (int, int), (int, int))>();
-            //h waarde, (blockrow, blockcol), (x1, y1), (x2, y2)
 
             // Loop through all pairs of cells in the block
-            for (int row1 = 0; row1 < 3; row1++)
+            for (int row1 = 0; row1 < 3; row1++) 
             {
-                for (int column1 = 0; column1 < 3; column1++)
+                for (int column1 = 0; column1 < 3; column1++) 
                 {
-                    for (int row2 = row1; row2 < 3; row2++)
+                    for (int row2 = row1; row2 < 3; row2++) 
                     {
                         for (int column2 = (row2 == row1) ? column1 + 1 : 0; column2 < 3; column2++)
                         {
-                            /* Verwijder later, maar even handig om te begrijpen hoe dit werkt
-                             * if row2 == row1, column1 + 1, else 0 (start from a new row)
-                             * dus als je beide cellen in dezelfde rij zitten, dan wordt je kolomwaarde die van je eerste cel +1 
-                             * anders skip je naar de volgende rij en zet je je kolomwaarde weer naar 0 
-                            */
-
-                            // Checks if cells are not fixed
-                            if (!selectedBlock[row1, column1].Item2 && !selectedBlock[row2, column2].Item2)
+                            if (!selectedBlock[row1, column1].Item2 && !selectedBlock[row2, column2].Item2) // Checks if cells are not fixed
                             {
-                                int h3 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column1))
-                                        + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row1));
-                                int h4 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column2))
-                                    + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row2));
 
-                                int hBefore = h3 + h4;
-                                //swap
+                                // Perform the evaluation before the swap per cell 
+                                int h1 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column1))
+                                    + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row1));
+                                int h2 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column2))
+                                    + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row2));
+                                int hBefore = h1 + h2;
+
+                                // Swap the cells 
                                 SwapCells(selectedBlock, row1, column1, row2, column2);
 
-                                // Perform the evaluation function per cell and add neccessarry indexes to the list
-                                int h1 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column1)) + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row1));
-                                int h2 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column2)) + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row2));
-                                int hAfter = h1 + h2;
-                                hValueList.Add((hBefore, hAfter, (blockRow, blockCol), (row1, column1), (row2, column2)));
+                                // Perform the evaluation function per cell after swapping
+                                int h3 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column1)) 
+                                    + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row1));
+                                int h4 = Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuColumnWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, column2)) 
+                                    + Evaluator.HeuristicFunctionPerRowOrColumn(getSudokuRowWithChangedValue(Program.inputSudoku, selectedBlock, blockRow, blockCol, row2));
+                                int hAfter = h3 + h4;
 
-                                
+                                // Add the neccessarry indexes to the list
+                                hValueList.Add((hBefore, hAfter, (blockRow, blockCol), (row1, column1), (row2, column2)));
 
                                 // Swap back so next swap can happen on the original sudoku
                                 SwapCells(selectedBlock, row1, column1, row2, column2);
@@ -137,30 +133,25 @@ namespace Sudoku
                     }
                 }
             }
-            //find swap with best h value
+            // Find the swap with the best heuristic value 
             int bestHValue = hValueList.Min(x => x.Item2);
             
-            if (bestHValue > currentH)
+            // Perform the swap if it results in an improvement or equal score 
+            if (bestHValue < currentH)
             {
-                return false;
+                int index = hValueList.FindIndex(x => x.Item2 == bestHValue); 
+                int hDifference = hValueList[index].Item1 - bestHValue;
+                currentH = currentH - hDifference; // Update the currentH value of the whole sudoku after the swap
 
+                // Swap and update the sudoku
+                SwapCells(block.blockIndexes[hValueList[index].Item3.Item1, hValueList[index].Item3.Item2], hValueList[index].Item4.Item1, hValueList[index].Item4.Item2, hValueList[index].Item5.Item1, hValueList[index].Item5.Item2);
+                Program.MapBlocksToSudoku(block, Program.inputSudoku); 
+
+                return true;
             }
             else
             {
-                Console.WriteLine(currentH);
-                Console.WriteLine("Succesful swap");
-
-                int index = hValueList.FindIndex(x => x.Item2 == bestHValue);
-
-                int hDifference = hValueList[index].Item1 - bestHValue;
-                currentH = currentH - hDifference;
-                //perform that swap with the saved indexes
-                SwapCells(block.blockIndexes[hValueList[index].Item3.Item1, hValueList[index].Item3.Item2], hValueList[index].Item4.Item1, hValueList[index].Item4.Item2, hValueList[index].Item5.Item1, hValueList[index].Item5.Item2);
-                //update sudoku
-                Program.MapBlocksToSudoku(block, Program.inputSudoku);
-
-
-                return true;
+                return false;
             }
 
         }
@@ -210,7 +201,6 @@ namespace Sudoku
             return result;
         }
 
-
         public static int[] getSudokuColumnWithChangedValue(Sudoku sudoku, (int, bool)[,] block, int blockRow, int blockCol, int colInBlock)
         {
             int[] result = new int[9];
@@ -255,16 +245,18 @@ namespace Sudoku
             return result;
         }
 
-
         public static void SwapCells((int, bool)[,] block, int row1, int column1, int row2, int column2)
         {
-            // Get the values of the cells
-            int value1 = block[row1, column1].Item1;
-            int value2 = block[row2, column2].Item1;
-
-            // Swap the values of the cells
-            block[row1, column1] = (value2, block[row1, column1].Item2);
-            block[row2, column2] = (value1, block[row2, column2].Item2);
+            // CHeck if the cells are not the same 
+            if (row1 != row2 || column1 != column2)
+            {
+                // Get the values of the cells
+                int value1 = block[row1, column1].Item1;
+                int value2 = block[row2, column2].Item1;
+                // Swap the values of the cells
+                block[row1, column1] = (value2, block[row1, column1].Item2);
+                block[row2, column2] = (value1, block[row2, column2].Item2);
+            }
         }
     }
 }
