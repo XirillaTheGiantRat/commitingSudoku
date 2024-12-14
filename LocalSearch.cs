@@ -137,7 +137,7 @@ namespace Sudoku
             int bestHValue = hValueList.Min(x => x.Item2);
             
             // Perform the swap if it results in an improvement or equal score 
-            if (bestHValue < currentH)
+            if (bestHValue < currentH || bestHValue == currentH)
             {
                 int index = hValueList.FindIndex(x => x.Item2 == bestHValue); 
                 int hDifference = hValueList[index].Item1 - bestHValue;
