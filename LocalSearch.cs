@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Security.Cryptography;
 
 namespace Sudoku
@@ -8,23 +9,22 @@ namespace Sudoku
     {
         private static Random random = new Random();
         private static Evaluator evaluator = new Evaluator(Program.inputSudoku);
-
         private static int currentH;
         private static int N;
-        private static readonly int StopCriterium = 10;
+        private static readonly int StopCriterium = 9;
 
-        public static void CheckHValue()
+        public static void CheckHValue(int S)
         {
-            int firstHValue = evaluator.GetSudokuHValue();
-            currentH = firstHValue;
-            
+            currentH = evaluator.GetSudokuHValue(Program.inputSudoku);
+            Console.WriteLine(currentH);
             while (currentH > 0)
             {
-                ChooseSwap();
+
+                ChooseSwap(S);
             }
         }
 
-        public static void ChooseSwap() 
+        public static void ChooseSwap(int S) 
         {
             if (N < StopCriterium) 
             {
@@ -34,15 +34,14 @@ namespace Sudoku
                 {
                     return;
                 }
-                else 
-                {
-                    N++;
-                }
             }
             else
             {
                 // After N unsuccesfull swaps, perform random walk
-                RandomWalk(20, Program.blocks);
+                RandomWalk(S, Program.blocks);
+
+                // CALCULATE AND UPDATE H VALUE AFTER RANDOM WALK AGAIN
+                currentH = evaluator.GetSudokuHValue(Program.inputSudoku);
                 N = 0;
             }
         }
@@ -126,34 +125,38 @@ namespace Sudoku
                     }
                 }
             }
+
             // Find the swap with the best heuristic value 
             int bestHValue = hValueList.Min(x => x.Item2);
-            
-            // Perform the swap if it results in an improvement or equal score 
-            if (bestHValue < currentH || bestHValue == currentH)
-            {
-                int index = hValueList.FindIndex(x => x.Item2 == bestHValue); 
-                int hDifference = hValueList[index].Item1 - bestHValue;
+            int index = hValueList.FindIndex(x => x.Item2 == bestHValue);
+            int hDifference = hValueList[index].Item1 - bestHValue;
 
+            // Perform the swap if it results in an improvement or equal score 
+            if (hDifference > 0)
+            {
                 // Update the currentH value of the whole sudoku after the swap
-                if (hDifference > 0)
-                {
-                    currentH = currentH - hDifference; 
-                }
-                if (hDifference == 0)
-                {
-                    currentH = currentH;
-                    N++;
-                }
+                currentH = currentH - hDifference;
 
                 // Swap and update the sudoku
                 SwapCells(block.blockIndexes[hValueList[index].Item3.Item1, hValueList[index].Item3.Item2], hValueList[index].Item4.Item1, hValueList[index].Item4.Item2, hValueList[index].Item5.Item1, hValueList[index].Item5.Item2);
-                Program.MapBlocksToSudoku(block, Program.inputSudoku); 
+                Program.MapBlocksToSudoku(block, Program.inputSudoku);
 
+                N = 0;
                 return true;
+            }
+            else if(hDifference == 0)
+            {
+                currentH = currentH;
+                SwapCells(block.blockIndexes[hValueList[index].Item3.Item1, hValueList[index].Item3.Item2], hValueList[index].Item4.Item1, hValueList[index].Item4.Item2, hValueList[index].Item5.Item1, hValueList[index].Item5.Item2);
+                Program.MapBlocksToSudoku(block, Program.inputSudoku);
+
+                N++;
+                return true;
+
             }
             else
             {
+                N++;
                 return false;
             }
 

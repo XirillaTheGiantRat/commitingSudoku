@@ -1,43 +1,55 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
+using System.ComponentModel;
+using static System.Collections.Specialized.BitVector32;
 
 namespace Sudoku
 {
     public class Program
     {
-        public static string inputString;
+        public static string? inputString;
         public static List<int> intList;
-        public static Sudoku inputSudoku;
+        public static Sudoku? inputSudoku;
         public static Block blocks;
         public static Evaluator evaluator;
-        Inserter inserter;
-
+        public static int S;
         public static void Main(string[] args)
         {
 
             Console.WriteLine("Enter sudoku:");
             inputString = Console.ReadLine();
 
-            // Start stopwatch
-            Stopwatch stopwatch = new Stopwatch();
+            for (int S = 5; S < 50; S += 5)
+            {
+                Console.WriteLine(inputString); 
+                SolveSudokuOnce(inputString, S);
+            }
+            
+            // SolveSudokuOnce(inputString, S);
+            // PrintSudoku(inputSudoku); // See the solution of the sudoku
+            Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!"); // <3
+            
+        }
+
+        public static void SolveSudokuOnce(string input, int S)
+        {
+            Stopwatch stopwatch = new Stopwatch(); // Start stopwatch
             stopwatch.Start();
 
-            // save every number as a separate int in the intList
-            intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList();
+            intList = input.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
 
             inputSudoku = MakeSudokuFromInput(intList);
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
             InsertValues(blocks, inputSudoku);
+            LocalSearch.CheckHValue(S);
 
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            stopwatch.Stop(); // Stop stopwatch
 
-            LocalSearch.CheckHValue();
-            Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!");
-
-            
+            double time = stopwatch.Elapsed.TotalMilliseconds; // Time in ms
+            Console.WriteLine($"The sudoku has been solved in {time:F0} ms, with S = {S}");
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)
@@ -51,8 +63,6 @@ namespace Sudoku
             Block block = new Block(sudoku);
             return block;
         }
-
-
         public static void InsertValues(Block block, Sudoku sudoku)
         {
             for (int g = 0; g < 3; g++)
@@ -84,6 +94,18 @@ namespace Sudoku
                         }
                     }
                 }
+            }
+        }
+
+        public static void PrintSudoku(Sudoku sudoku) // Used to print the output sudoku 
+        {
+            for (int row = 0; row < 9; row++)
+            {
+                for (int col = 0; col < 9; col++)
+                {
+                    Console.Write(sudoku.allIndexes[row, col] + " ");
+                }
+                Console.WriteLine();
             }
         }
 
