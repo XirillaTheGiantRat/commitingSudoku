@@ -15,12 +15,13 @@ namespace Sudoku
 
         public static void Main(string[] args)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
 
             Console.WriteLine("Enter sudoku:");
             inputString = Console.ReadLine();
 
+            // Start stopwatch
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
             // save every number as a separate int in the intList
             intList = inputString.Split(' ', StringSplitOptions.RemoveEmptyEntries) .Select(int.Parse) .ToList();
@@ -29,12 +30,14 @@ namespace Sudoku
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
             InsertValues(blocks, inputSudoku);
-            
-            LocalSearch.CheckHValue();
-            Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!");
 
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
+
+            LocalSearch.CheckHValue();
+            Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!");
+
+            
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)

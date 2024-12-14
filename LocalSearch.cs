@@ -10,17 +10,23 @@ namespace Sudoku
         private static Evaluator evaluator = new Evaluator(Program.inputSudoku);
 
         private static int currentH;
-        private static int N; 
+        private static int N;
+        private static readonly int StopCriterium = 10;
 
-        public static void CheckHValue() {
+        public static void CheckHValue()
+        {
             int firstHValue = evaluator.GetSudokuHValue();
             currentH = firstHValue;
-
+            
+            while (currentH > 0)
+            {
+                ChooseSwap();
+            }
         }
 
-        public static void ChooseSwap(List<(int, int)> notVisited) 
+        public static void ChooseSwap() 
         {
-            if (N < 10) 
+            if (N < StopCriterium) 
             {
 
                 bool didTheSwap = PerformAllSwaps(Program.blocks, random.Next(3), random.Next(3));
@@ -35,7 +41,7 @@ namespace Sudoku
             }
             else
             {
-                // After 10 unsuccesfull swaps, perform random walk
+                // After N unsuccesfull swaps, perform random walk
                 RandomWalk(20, Program.blocks);
                 N = 0;
             }
