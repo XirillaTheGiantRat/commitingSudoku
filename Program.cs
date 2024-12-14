@@ -27,7 +27,7 @@ namespace Sudoku
 
             InsertValues(blocks, inputSudoku);
             
-            SearchOperator.CheckHValue();
+            LocalSearch.CheckHValue();
             Console.WriteLine("h-value is 0");
         }
 
