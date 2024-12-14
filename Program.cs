@@ -23,6 +23,8 @@ namespace Sudoku
             inputSudoku = MakeSudokuFromInput(intList);
             blocks = MakeBlocksFromSudoku(inputSudoku);
 
+            
+
             InsertValues(blocks, inputSudoku);
             
             SearchOperator.CheckHValue();

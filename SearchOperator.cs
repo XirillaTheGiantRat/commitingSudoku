@@ -18,7 +18,7 @@ namespace Sudoku
         private Block block;
         //private static Sudoku sudoku;
         private static Random random = new Random();
-        private static Evaluator evaluator;
+        private static Evaluator evaluator = new Evaluator(Program.inputSudoku);
 
         private static int currentH;
         public SearchOperator(Block block)
@@ -63,7 +63,7 @@ namespace Sudoku
             }
             else
             {
-                RandomWalk(10, Program.blocks); // hier is de 10 de n aantal random walks/swaps
+                RandomWalk(50, Program.blocks); // hier is de 10 de n aantal random walks/swaps
             }
         }
 
@@ -127,7 +127,7 @@ namespace Sudoku
                                 int hValue = h1 + h2;
                                 hValueList.Add((hValue, (blockRow, blockCol), (row1, column1), (row2, column2)));
                                 //swap back so next swap can happen on the original sudoku
-                                SwapCells(selectedBlock, row1, column1, row2, column2);                                
+                                SwapCells(selectedBlock, row1, column1, row2, column2);
                             }
                         }
                     }
@@ -142,8 +142,10 @@ namespace Sudoku
             }
             else
             {
+                
                 currentH = bestHValue;
                 int index = hValueList.FindIndex(x => x.Item1 == bestHValue);
+                
                 //perform that swap with the saved indexes
                 SwapCells(block.blockIndexes[hValueList[index].Item2.Item1, hValueList[index].Item2.Item2], hValueList[index].Item3.Item1, hValueList[index].Item3.Item2, hValueList[index].Item4.Item1, hValueList[index].Item4.Item2);
                 //update sudoku
