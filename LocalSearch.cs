@@ -4,20 +4,9 @@ using System.Security.Cryptography;
 
 namespace Sudoku
 {
-    /* Oke dit is hoe ik eerst PerformAllSwaps deed maar dit is minder effectief aangezien ik eerst alle pairs zocht
-     * Dat zijn like n(n-1)/2 swaps, met n = 9 36 swaps per blok in totaal
-     * Pas bij het swappen zelf ging ik checken of de swap wel mogelijk is.
-     * 
-     * Bij de normale SearchOperator exclude ik sws de cellen die fixated zijn en daarna ga ik naar alle mogelijke pairs kijken
-     * 
-     * Handig om deze code voor nu te bewaren, want dan kan ik er ook over yappen in het verslag  
-     * - 
-     */
-
     public class LocalSearch
     {
         private Block block;
-        //private static Sudoku sudoku;
         private static Random random = new Random();
         private static Evaluator evaluator = new Evaluator(Program.inputSudoku);
 
@@ -72,10 +61,11 @@ namespace Sudoku
         {
             for (int i = 0; i < n; i++)
             {
-                //random cell die we gaan swappen
+                // Locate two random cells that have to be swapped 
                 (int, int) cell1 = (random.Next(3), random.Next(3));
                 (int, int) cell2 = (random.Next(3), random.Next(3));
-                //randomblock, locatie nodig om straks sudoku te kunnen updaten
+                
+                // Get the random block 
                 (int, int) randomBlockLoc = (random.Next(3), random.Next(3));
                 (int, bool)[,] randomBlock = block.blockIndexes[randomBlockLoc.Item1, randomBlockLoc.Item2];
                 //cell moet natuurlijk niet gefixed zijn
