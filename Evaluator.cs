@@ -83,7 +83,7 @@ namespace Sudoku
             }
         }
 
-        public int[] allRowHeuristics(Sudoku inputSudoku)
+        public int[] allRowHeuristics(Sudoku input)
         {
             int[] heuristicValuesPerRow = new int[9];
             for (int i = 0; i < 9; i++)
@@ -95,7 +95,7 @@ namespace Sudoku
             return heuristicValuesPerRow;
         }
 
-        public int[] allColumnHeuristics(Sudoku inputSudoku)
+        public int[] allColumnHeuristics(Sudoku input)
         {
             int[] heuristicValuesPerColumn = new int[9];
             for (int i = 0; i < 9; i++)
@@ -107,10 +107,10 @@ namespace Sudoku
             return heuristicValuesPerColumn;
         }
 
-        public int GetSudokuHValue(Sudoku inputSudoku)
+        public int GetSudokuHValue(Sudoku input)
         {
-            int[] heuristicRowValues = allRowHeuristics(inputSudoku);
-            int[] heuristicColumnValues = allColumnHeuristics(inputSudoku);
+            int[] heuristicRowValues = allRowHeuristics(input);
+            int[] heuristicColumnValues = allColumnHeuristics(input);
             int hValue = HeuristicSums(heuristicRowValues, heuristicColumnValues);
             return hValue;
         }

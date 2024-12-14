@@ -16,10 +16,9 @@ namespace Sudoku
         public static void CheckHValue(int S)
         {
             currentH = evaluator.GetSudokuHValue(Program.inputSudoku);
-            Console.WriteLine(currentH);
+
             while (currentH > 0)
             {
-
                 ChooseSwap(S);
             }
         }
@@ -162,7 +161,7 @@ namespace Sudoku
 
         }
 
-        //dit is de meest cracked code ooit sorry basically maakt het een array aan van de hele sudoku maar dan met de values na de swap
+        // Make array of the whole sudoku but with the values after the swap
         public static int[] getSudokuRowWithChangedValue(Sudoku sudoku, (int, bool)[,] block, int blockRow, int blockCol, int rowInBlock)
         {
             int[] result = new int[9];

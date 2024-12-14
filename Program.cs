@@ -9,26 +9,23 @@ namespace Sudoku
 {
     public class Program
     {
-        public static string? inputString;
+        public static string inputString;
         public static List<int> intList;
-        public static Sudoku? inputSudoku;
+        public static Sudoku inputSudoku;
         public static Block blocks;
         public static Evaluator evaluator;
         public static int S;
+        public static int currentH;
         public static void Main(string[] args)
         {
+            S = 5;
 
             Console.WriteLine("Enter sudoku:");
             inputString = Console.ReadLine();
 
-            for (int S = 5; S < 50; S += 5)
-            {
-                Console.WriteLine(inputString); 
-                SolveSudokuOnce(inputString, S);
-            }
-            
-            // SolveSudokuOnce(inputString, S);
-            // PrintSudoku(inputSudoku); // See the solution of the sudoku
+            SolveSudokuOnce(inputString, S);
+
+            PrintSudoku(inputSudoku); // See the solution of the sudoku
             Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!"); // <3
             
         }
@@ -37,13 +34,14 @@ namespace Sudoku
         {
             Stopwatch stopwatch = new Stopwatch(); // Start stopwatch
             stopwatch.Start();
-
+            
+            // Prepare the sudoku
             intList = input.Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToList();
-
             inputSudoku = MakeSudokuFromInput(intList);
             blocks = MakeBlocksFromSudoku(inputSudoku);
-
             InsertValues(blocks, inputSudoku);
+
+            // Perform local search
             LocalSearch.CheckHValue(S);
 
             stopwatch.Stop(); // Stop stopwatch
