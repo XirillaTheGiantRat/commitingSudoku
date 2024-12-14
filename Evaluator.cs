@@ -14,63 +14,56 @@ namespace Sudoku
             sudoku = s;
         }
 
-        public int[] ReadHorizontal(int c) // stel je zegt c=2, dan is dit de derde column van de sudoku, vanwege 0-indexing
+        // Read the numbers of the row in the sudoku (with 0-indexing)
+        public int[] ReadRow(int r) 
         {
-            int[] numbersInColumn = new int[9];
+            int[] numbersInRow = new int[9];
             int value;
 
             for (int i = 0; i < 9; i++) 
             {
-                value = sudoku.allIndexes[c, i];
+                value = sudoku.allIndexes[r, i];
+                numbersInRow[i] = value;
+                Console.WriteLine(value);
+            }
+
+            return numbersInRow;
+        }
+
+        // Read the numbers of the vertical row in the sudoku (with 0-indexing)
+        public int[] ReadColumn(int c) 
+        {
+            int[] numbersInColumn = new int[9];
+            int value;
+
+            for (int i = 0; i < 9; i++)
+            {
+                value = sudoku.allIndexes[i, c];
                 numbersInColumn[i] = value;
             }
 
             return numbersInColumn;
         }
 
-        public int[] ReadVertical(int r) // r is de row van de sudoku gelezen met 0-indexing
+        // Checks if number n is in the list 
+        public static bool NumberInList(int[] input, int n) 
         {
-            int[] numbersInRow = new int[9];
-            int value;
-
-            for (int i = 0; i < 9; i++)
-            {
-                value = sudoku.allIndexes[i, r];
-                numbersInRow[i] = value;
-            }
-
-            return numbersInRow;
-        }
-
-        public int Read0Values(int[] input)
-        {
-            int amountOf0Values = 0;
-
-            foreach (int i in input)
-            {
-                if(i == 0) amountOf0Values++;
-            }
-
-            return amountOf0Values;
-        }
-
-        
-        public static bool IsThereANumber(int[] input, int n)
-        {// kijkt of nummer n in de lijst zit. false als hij er niet in zit en true als hij er wel in zit.
             foreach (int value in input)
             {
-                if (value == n) return true;
+                if (value == n) return true; // False is the number is not in the list, and True if it is
             }
             return false;
         }
 
-        public static (bool, List<int>) AreAllNumbersIncludedInList(int[] input) 
-        { // Kijkt of alle getallen van 1-9 in een lijst zitten en houdt bij welke getallen er missen
-            List<int> missingNumbers = new List<int>();
+        // Check if all numbers 1-9 are in the list 
+        public static (bool, List<int>) AllNumbersIncludedInList(int[] input) 
+        { 
+
+            List<int> missingNumbers = new List<int>(); // keep track of the missing numbers
 
             for (int n = 1; n <= 9; n++)
             {
-                if (!IsThereANumber(input, n)) missingNumbers.Add(n);
+                if (!NumberInList(input, n)) missingNumbers.Add(n);
             }
 
             bool allNumbersIncluded = (missingNumbers.Count() == 0);
@@ -79,57 +72,56 @@ namespace Sudoku
 
         public static int HeuristicFunctionPerRowOrColumn(int[] input) 
         {
-            (bool, List<int>) tuple = AreAllNumbersIncludedInList(input);
-            // als de bool true is, is de lijst dus compleet van alle waarden 1-9
-            // heuristische waarde moet dan 0 zijn
+            // Boolean value of True implies a complete list, which should have a heuristic value of 0
+            (bool, List<int>) tuple = AllNumbersIncludedInList(input); 
+
             if (tuple.Item1) return 0; 
             else 
             {
-                // anders wordt de heuristische waarde verhoogd voor elk nummer die nog mist in de lijst
                 List<int> missingNumbers = tuple.Item2;
                 int newValue = missingNumbers.Count();
                 return newValue;
             }
         }
 
-        public int[] allHorizontalHeuristicValues()
+        public int[] allRowHeuristics()
         {
             int[] heuristicValuesPerRow = new int[9];
             for (int i = 0; i < 9; i++)
             {
-                int[] row = ReadHorizontal(i);
+                int[] row = ReadRow(i);
                 int hValue = HeuristicFunctionPerRowOrColumn(row);
                 heuristicValuesPerRow[i] = hValue;
             }
             return heuristicValuesPerRow;
         }
 
-        public int[] allVerticalHeuristicValues()
+        public int[] allColumnHeuristics()
         {
             int[] heuristicValuesPerColumn = new int[9];
             for (int i = 0; i < 9; i++)
             {
-                int[] column = ReadVertical(i);
+                int[] column = ReadColumn(i);
                 int hValue = HeuristicFunctionPerRowOrColumn(column);
                 heuristicValuesPerColumn[i] = hValue;
             }
             return heuristicValuesPerColumn;
         }
 
-        public int HeuristicValueOfSudoku(int[] rowHeuristics, int[] columnHeuristics) 
+        public int GetSudokuHValue() 
+        {
+            int[] heuristicRowValues = allRowHeuristics();
+            int[] heuristicColumnValues = allColumnHeuristics();
+            int hValue = HeuristicSums(heuristicRowValues, heuristicColumnValues);
+            return hValue;
+        }
+
+        // Helper function for GetSudokuHValue
+        public int HeuristicSums(int[] rowHeuristics, int[] columnHeuristics)
         {
             int sumOfRows = rowHeuristics.Sum();
             int sumOfColumns = columnHeuristics.Sum();
-            int totalsum = sumOfRows + sumOfColumns;
-            return totalsum;
-        }
-
-        public int GetSudokuHValue() 
-        {
-            int[] heuristicRowValues = allHorizontalHeuristicValues();
-            int[] heuristicColumnValues = allVerticalHeuristicValues();
-            int hValue = HeuristicValueOfSudoku(heuristicRowValues, heuristicColumnValues);
-            return hValue;
+            return sumOfRows + sumOfColumns; 
         }
     }
 }
