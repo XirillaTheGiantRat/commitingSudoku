@@ -16,21 +16,53 @@ namespace Sudoku
         public static Evaluator evaluator;
         public static int S;
         public static int currentH;
+
+
         public static void Main(string[] args)
         {
-            S = 5;
-
+            
             Console.WriteLine("Enter sudoku:");
             inputString = Console.ReadLine();
 
+            S = 2; // Optimal S value 
             SolveSudokuOnce(inputString, S);
-
             PrintSudoku(inputSudoku); // See the solution of the sudoku
+           
+            /* 
+            // Analysis to search for the best S value
+            var listS1 = new List<(int, double)>();
+
+            for (int S1 = 1; S1 < 11; S1 = S1 + 1)
+            {
+                double timeS1 = SolveMultipleTimes(inputString, S1);
+                listS1.Add((S1, timeS1));
+            }
+            
+            double optimisedS1 = Analysis.GetBestS(listS1);
+            Console.WriteLine($"Best S for this puzzle: {optimisedS1}");
+            */
+
             Console.WriteLine("Micheal the rat congratulates you on solving this sudoku!"); // <3
             
         }
 
-        public static void SolveSudokuOnce(string input, int S)
+        public static double SolveMultipleTimes(string input, int S)
+        {
+            List<double> times = new List<double>(); // List of all measured times for a certain S value 
+            
+            // Solve the sudoku # times for a certain S value
+            for (int i = 0; i < 10; i++) 
+            {
+                double t = SolveSudokuOnce(inputString, S);
+                times.Add(t);
+            }
+
+            // Calculate the mean and standard deviation 
+            (double mean, double std) = Analysis.MeanAndStd(times);
+            Console.WriteLine($"S = {S} took {mean:F2} +/- {std:F2} ms");
+            return mean; 
+        }
+        public static double SolveSudokuOnce(string input, int S)
         {
             Stopwatch stopwatch = new Stopwatch(); // Start stopwatch
             stopwatch.Start();
@@ -40,14 +72,15 @@ namespace Sudoku
             inputSudoku = MakeSudokuFromInput(intList);
             blocks = MakeBlocksFromSudoku(inputSudoku);
             InsertValues(blocks, inputSudoku);
-
             // Perform local search
             LocalSearch.CheckHValue(S);
 
             stopwatch.Stop(); // Stop stopwatch
 
             double time = stopwatch.Elapsed.TotalMilliseconds; // Time in ms
-            Console.WriteLine($"The sudoku has been solved in {time:F0} ms, with S = {S}");
+            // Console.WriteLine($"The sudoku has been solved in {time:F0} ms, with S = {S}");
+
+            return time;
         }
 
         public static Sudoku MakeSudokuFromInput(List<int> inputList)

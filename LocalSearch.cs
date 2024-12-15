@@ -15,8 +15,8 @@ namespace Sudoku
 
         public static void CheckHValue(int S)
         {
+            Evaluator evaluator = new Evaluator(Program.inputSudoku);
             currentH = evaluator.GetSudokuHValue(Program.inputSudoku);
-
             while (currentH > 0)
             {
                 ChooseSwap(S);
@@ -25,6 +25,8 @@ namespace Sudoku
 
         public static void ChooseSwap(int S) 
         {
+            Evaluator evaluator = new Evaluator(Program.inputSudoku);
+
             if (N < StopCriterium) 
             {
 
@@ -38,7 +40,6 @@ namespace Sudoku
             {
                 // After N unsuccesfull swaps, perform random walk
                 RandomWalk(S, Program.blocks);
-
                 // CALCULATE AND UPDATE H VALUE AFTER RANDOM WALK AGAIN
                 currentH = evaluator.GetSudokuHValue(Program.inputSudoku);
                 N = 0;
